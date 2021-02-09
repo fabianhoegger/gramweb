@@ -5,28 +5,18 @@ class CheckGradeSpider(scrapy.Spider):
     name = 'check_grade'
     allowed_domains = ['gram-web.ionio.gr']
     start_urls = ['http://gram-web.ionio.gr/unistudent/login.asp']
+
     def authentication_failed(response):
-    # TODO: Check the contents of the response and return True if it failed
-    # or False if it succeeded.
-        pass
+        return {'status':response.status}
 
     def parse(self, response):
-        return scrapy.FormRequest.from_response(response,
-            formdata={'userName': 'p16chai', 'pwd': 't1SCwT6t','submit1':'%C5%DF%F3%EF%E4%EF%F2','loginTrue':'login',
-            'c02c71ae0d90143449b5882db85ca536c':'E98D85C6167EE8468D7BA9E0CAE05836D923D5D392C0BCD00A27A937AB379FDA2454E0E6C2D45F2F6FE8260078500E7DAC28FDE1A11682311BD68CC918B560900169729911FEB9C1987F077382287BEBA1626F2106E0D1199F4674ADC938DE44'},
+        return [scrapy.FormRequest.from_response(response,
+            formdata={'userName': 'p16chai', 'pwd': 't1SCwT6t','submit1':'%C5%DF%F3%EF%E4%EF%F2','loginTrue':'login'},
             callback=self.after_login
-        )
+        )]
     def after_login(self,response):
-        if authentication_failed(response):
+        if not response:
             self.logger.error("Login failed")
             return
         else:
             return {'status':response.status,'title':response.xpath("//span[@class='title']/text()").get()}
-response
-rcva=BE9A1AF08E5A298426E0FF13C957A3837223F01977FFF914BA0CCD09159DF26 34B37ACABACA5FACEE5924CBEC306E15FFBDFDFB247FA3D292C3C9F0ACCAF26BDF678C31372CC781F1CB615670D2C54675561B3A078262B5FC0263A4AF5B652758457742A257465371195A802E44E80231FDBA552519E9C19D62B5530A46DB05C"
-request
-rcva=BE9A1AF08E5A298426E0FF13C957A3837223F01977FFF914BA0CCD09159DF26 330972D6B965F1F3647FF5923934253F98AC2AEF3C8C766EFB48C2DB9C5BA8139DE621D591BD2845347F5C677587E007B7D69B7D5188135640FA789BC2DB74500CF88CF3CA285D3197F2793060CBD3BBE7C7763A14CA1380028C47524C4BE5825"
-sessionId=3FEF624D-7600-476C-A529-644BD83CFBD6,srv=195.130.124.81
-
-
-rcva=BE9A1AF08E5A298426E0FF13C957A3837223F01977FFF914BA0CCD09159DF26 3FE5382C8A41E20170BABDCC8CBBF4007B936E18F6762D028A403C0B3502B93D49ABC94B9EB49BB21C59D5F472BACEA88F2FF945E274B502F206F38CFE8B99AC565BC485FA64A7D57276F4CE46F2A2725930958C31B7A906B5FFBAB17AFF26EBE"
